@@ -13,6 +13,20 @@ function bind(fn, obj) {
     };
 }
 
+L.CRS.Earth.bearing = function (latlng1, latlng2) {
+    let rad = Math.PI / 180,
+        lat1 = latlng1.lat * rad,
+        lat2 = latlng2.lat * rad,
+        deltaLng = (latlng2.lng - latlng1.lng) * rad;
+    let y = Math.sin(deltaLng) * Math.cos(lat2),
+        x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(deltaLng);
+    return ((Math.atan2(y, x) / rad) + 360) % 360;
+};
+
+L.LatLng.prototype.bearingTo = function (other) {
+    return L.CRS.Earth.bearing(this, L.latLng(other));
+};
+
 let DragMeasure = L.Handler.extend({
     initialize: function (map) {
         this._map = map;
@@ -93,7 +107,7 @@ let DragMeasure = L.Handler.extend({
         this._currentPoint = this._map.mouseEventToLatLng(e);
         this._distance = (this._startPoint.distanceTo(this._currentPoint) / 1852).toFixed(2);
         this._bearing = this._startPoint.bearingTo(this._currentPoint).toFixed(0);
-        let text = `Bearing: ${this._bearing} <br>Distance: ${this._distance}`
+        let text = `Bearing: ${this._bearing} <br>Distance: ${this._distance} NM`;
         this._line = L.polyline([this._startPoint, this._currentPoint], {
             color: 'red',
             dashArray: '1,6',

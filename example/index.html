@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet DragMeasure Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="" />
+</head>
+
+<body>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+        crossorigin=""></script>
+    <script src="../src/leaflet.dragmeasure.js"></script>
+    <div id="map" style="width: 600px; height: 400px"></div>
+    <script>
+        let map = new L.Map('map');
+        let osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        let osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+        let osm = new L.TileLayer(osmUrl, {
+            minZoom: 8,
+            maxZoom: 12,
+            attribution: osmAttrib
+        });
+
+        map.setView(new L.LatLng(51.3, 0.7), 9);
+        map.addLayer(osm);
+    </script>
+</body>
+
+</html>
